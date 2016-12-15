@@ -5,4 +5,4 @@ Project scripts are written using C# code, in Assets/Scripts folder. Some refere
 
 Credits:
 - Unity3D gitignore base file: https://github.com/github/gitignore/blob/master/Unity.gitignore
-- Joe Blow for preloading scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time/35891919#35891919
+- Joe Blow (stackoverflow) for preloading scene: http://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time/35891919#35891919
