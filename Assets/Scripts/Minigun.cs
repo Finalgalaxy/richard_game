@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 
 public class Minigun : Weapon
 {
@@ -10,7 +11,7 @@ public class Minigun : Weapon
 	}
 
 	// sovrascrittura
-	public override void fire(){
+	public override void fire(GameObject player, Vector3 weapon_position){
 		// qua dice come sparare col minigun
 	}
 }

@@ -5,9 +5,9 @@ public abstract class Weapon
 {
 	public String name_weapon;
 	public float rateo_fire;
-	protected Transform prefab_weapon;
+	public GameObject prefab_weapon;
 
-	public override void fire(){
+	public virtual void fire(GameObject player, Vector3 weapon_position){
 		// To override
 	}
 }

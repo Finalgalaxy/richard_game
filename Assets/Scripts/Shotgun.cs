@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 
 public class Shotgun : Weapon
 {
@@ -13,7 +14,7 @@ public class Shotgun : Weapon
 	}
 
 	// sovrascrittura
-	public virtual void fire(){
+	public override void fire(GameObject player, Vector3 weapon_position){
 		// qua dice come sparare con lo shotgun
 	}
 }

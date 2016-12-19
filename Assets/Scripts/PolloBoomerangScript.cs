@@ -25,8 +25,8 @@ public class PolloBoomerangScript : MonoBehaviour, IFire {
 			clone.velocity = Vector2.zero;//new Vector2(-clone.velocity.x, so.transform.position.y - this.transform.position.y);//new Vector2(Mathf.Abs(this.transform.position.x - so.transform.position.x), so.transform.position.y - this.transform.position.y);//so.transform.position - this.transform.position;		//				so.transform.TransformDirection(Vector3.right * 10);
 			ctime_reach_end = -1;
 			isComingBack = true;
-			IMovable im = (IMovable)so.GetComponent<PlayerController>();
-			im.setIfMovable(true);
+			IPlayerActions im = (IPlayerActions)so.GetComponent<PlayerController>();
+			im.setIfCanMove(true);
 		} else if(isComingBack) {
 			//transform.position = Vector3.Lerp(transform.position, so.transform.position, 5.0f*Time.deltaTime);
 			Vector3 direction = (so.transform.position - transform.position).normalized;
@@ -60,9 +60,9 @@ public class PolloBoomerangScript : MonoBehaviour, IFire {
 	float ctime_reach_end = -1;
 	public void fire(GameObject so){
 		this.so = so;
-		IMovable im = (IMovable)so.GetComponent<PlayerController>();
-		im.setIfMovable(false);
-		im.setIfCanFirePollo(false);
+		IPlayerActions im = (IPlayerActions)so.GetComponent<PlayerController>();
+		im.setIfCanMove(false);
+		im.setIfCanFire(false);
 		Rigidbody2D clone = this.GetComponent<Rigidbody2D>();
 		clone.gravityScale = 0.0f;
 		clone.velocity = so.transform.TransformDirection(Vector3.left * 10);
@@ -71,17 +71,8 @@ public class PolloBoomerangScript : MonoBehaviour, IFire {
 	}
 
 	void OnDestroy(){
-		PlayerController c = so.GetComponent<PlayerController>();
-		IMovable im = (IMovable)c;
-		im.setIfCanFirePollo(true);
+		IPlayerActions im = (IPlayerActions)so.GetComponent<PlayerController>();
+		im.setIfCanFire(true);
 	}
-	/* OBSOLETE
-	public void fire(Transform starter_transform){
-		Rigidbody2D clone = this.GetComponent<Rigidbody2D>();
-		clone.gravityScale = 0.0f;
-		clone.velocity = starter_transform.TransformDirection(Vector3.left * 10);
-	}
-	*/
-
 
 }

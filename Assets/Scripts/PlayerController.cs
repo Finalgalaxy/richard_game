@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour, IMovable {
+public class PlayerController : MonoBehaviour, IPlayerActions {
 	Animator m_Animator;
 	public float Speed = 10.0f;
 	public float JumpSpeed = 7.0f;
 	public float WallJumpSpeed = 5.0f;
-	public float PolloSpeed = 10.0f;
 	public LayerMask GroundLayers;
 	public GameObject weapon;
 
@@ -14,9 +13,10 @@ public class PlayerController : MonoBehaviour, IMovable {
 	private Transform m_GroundCheckL,m_GroundCheckR,m_WallJumpTOP,m_WallJumpBOTTOM;
 
 	private Vector3 defaultpos;
-	public bool canMoveCharacter=true;
+	public bool canMoveCharacter = true;
+	private Weapon weapon_equip;
+	private float ctime_fire_weapon=-1;
 
-	private float ctime_pollospeed=-1;//,ctime_walljump=-1;
 	// Use this for initialization
 	void Start () {
 		m_Animator = this.GetComponent<Animator>();
@@ -26,17 +26,18 @@ public class PlayerController : MonoBehaviour, IMovable {
 		m_WallJumpTOP = this.transform.FindChild("WallJumpTOP");
 		m_WallJumpBOTTOM = this.transform.FindChild("WallJumpBOTTOM");
 		defaultpos = this.transform.position;
+		weapon_equip = new PolloBoomerang(weapon);
 	}
 
 	bool isGrounded = true;
 	bool isTouchingWall = false;
 	float speed = 0.0f; // Disables animation by setting speed to 0, if shouldAnimateWalk stays false.
 
-	bool can_firePollo = true;
+	bool can_fire = true;
 
 	bool jump = false;
 	bool walljump = false;
-	bool firePollo = false;
+	bool fired = false;
 
 	void Update () {
 		bool isGroundedL = Physics2D.OverlapPoint(m_GroundCheckL.position, GroundLayers);
@@ -67,9 +68,9 @@ public class PlayerController : MonoBehaviour, IMovable {
 		m_Animator.SetBool("IsGrounded", isGrounded);
 		
 		//Debug.Log("IsGrounded=" + isGrounded);
-		if(Input.GetButtonDown("Fire1") && ((Time.time - ctime_pollospeed) > 6f || can_firePollo)) {
-			firePollo = true;
-			ctime_pollospeed = Time.time;
+		if(Input.GetButtonDown("Fire1") && ((Time.time - ctime_fire_weapon) > weapon_equip.rateo_fire || can_fire)) {
+			fired = true;
+			ctime_fire_weapon = Time.time;
 		}
 	}
 
@@ -106,13 +107,13 @@ public class PlayerController : MonoBehaviour, IMovable {
 				//this.rigidbody_2d.velocity = new Vector2(-this.rigidbody_2d.velocity.x, this.rigidbody_2d.velocity.y);
 				//this.setFacingL(!this.getFacing()); // ignored?
 			}
-			if(firePollo) {
-				can_firePollo = false;
+			if(fired) {
+				can_fire = false;
 				Vector3 weapon_position = transform.position + (getFacing() ? Vector3.right : Vector3.left);
-				GameObject go = Instantiate(weapon, weapon_position, transform.rotation) as GameObject;
-				IFire interface_fire = (IFire) go.GetComponent<PolloBoomerangScript>();
-				interface_fire.fire(gameObject);
-				firePollo = false;
+				this.weapon_equip.fire(gameObject, weapon_position);
+				/*IFire interface_fire = (IFire) go.GetComponent<PolloBoomerangScript>();
+				interface_fire.fire(gameObject);*/
+				fired = false;
 			}
 		}
 
@@ -138,14 +139,14 @@ public class PlayerController : MonoBehaviour, IMovable {
 		return value ? -1 : 1; // right:-1, left:1
 	}
 
-	public void setIfMovable(bool condition){
+	public void setIfCanMove(bool condition){
 		canMoveCharacter = condition;
 		this.rigidbody_2d.velocity = new Vector2(0, 0);
 		m_Animator.SetFloat("Speed", 0.0f);
 	}
 
-	public void setIfCanFirePollo(bool condition){
-		can_firePollo = condition;
+	public void setIfCanFire(bool condition){
+		can_fire = condition;
 	}
 
 	public IEnumerator MoveOverSpeed (GameObject objectToMove, Vector3 end, float speed){
