@@ -42,6 +42,10 @@ public class PolloBoomerangScript : MonoBehaviour, IFire {
 		if(col.gameObject.layer == LayerMask.NameToLayer("Ground")){
 			Debug.Log("Collision with ground!!!");
 			ctime_reach_end = 0;
+		}if(col.gameObject.layer == LayerMask.NameToLayer("Monster")){
+			Debug.Log("Collision with enemy!!!");
+			Destroy(col.gameObject);
+			ctime_reach_end = 0;
 		}else if(checkCollisionWithPlayer) {
 			if(col.gameObject.layer == LayerMask.NameToLayer("Player")){
 				//Destroy(col.gameObject);
