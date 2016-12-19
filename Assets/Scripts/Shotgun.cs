@@ -10,6 +10,7 @@ public class Shotgun : Weapon
 	{
 		this.name_weapon = "Shotgun";
 		this.rateo_fire = 3.0f;
+		this.is_spammable_fire = false;
 		this.prefab_weapon = null; // Not available still
 	}
 

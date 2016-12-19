@@ -7,14 +7,15 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 	public float JumpSpeed = 7.0f;
 	public float WallJumpSpeed = 5.0f;
 	public LayerMask GroundLayers;
-	public GameObject weapon;
+	public GameObject[] weapon_go_list;
 
 	private Rigidbody2D rigidbody_2d;
 	private Transform m_GroundCheckL,m_GroundCheckR,m_WallJumpTOP,m_WallJumpBOTTOM;
 
 	private Vector3 defaultpos;
 	public bool canMoveCharacter = true;
-	private Weapon weapon_equip;
+	private Weapon[] weapon_list;
+	private int weapon_equipped=0;
 	private float ctime_fire_weapon=-1;
 
 	// Use this for initialization
@@ -26,7 +27,10 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 		m_WallJumpTOP = this.transform.FindChild("WallJumpTOP");
 		m_WallJumpBOTTOM = this.transform.FindChild("WallJumpBOTTOM");
 		defaultpos = this.transform.position;
-		weapon_equip = new PolloBoomerang(weapon);
+		weapon_list = new Weapon[2];
+		weapon_list[0] = new PolloBoomerang(weapon_go_list[0]);
+		weapon_list[1] = new RocketLauncher(weapon_go_list[1]);
+		weapon_equipped = 1;
 	}
 
 	bool isGrounded = true;
@@ -66,9 +70,25 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 		// Callback to the animator warning him "hey, this is the actual speed".
 		m_Animator.SetFloat("Speed", speed);
 		m_Animator.SetBool("IsGrounded", isGrounded);
-		
+
+		if(Input.GetButtonDown("Weapon1")){
+			weapon_equipped = 0;
+			//ctime_fire_weapon = 0;
+		}else if(Input.GetButtonDown("Weapon2")){
+			weapon_equipped = 1;
+			//ctime_fire_weapon = 0;
+		}
+
 		//Debug.Log("IsGrounded=" + isGrounded);
-		if(Input.GetButtonDown("Fire1") && ((Time.time - ctime_fire_weapon) > weapon_equip.rateo_fire || can_fire)) {
+		bool buttonFire_pressed=false;
+		if(!weapon_list[weapon_equipped].is_spammable_fire && Input.GetButtonDown("Fire1")) {
+			buttonFire_pressed = true;
+		} else if(weapon_list[weapon_equipped].is_spammable_fire && Input.GetButton("Fire1")) {
+			buttonFire_pressed = true;
+		} else {
+			buttonFire_pressed = false;
+		}
+		if(buttonFire_pressed && ((Time.time - ctime_fire_weapon) > weapon_list[weapon_equipped].rateo_fire || can_fire)) {
 			fired = true;
 			ctime_fire_weapon = Time.time;
 		}
@@ -110,7 +130,7 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 			if(fired) {
 				can_fire = false;
 				Vector3 weapon_position = transform.position + (getFacing() ? Vector3.right : Vector3.left);
-				this.weapon_equip.fire(gameObject, weapon_position);
+				this.weapon_list[weapon_equipped].fire(gameObject, weapon_position);
 				/*IFire interface_fire = (IFire) go.GetComponent<PolloBoomerangScript>();
 				interface_fire.fire(gameObject);*/
 				fired = false;

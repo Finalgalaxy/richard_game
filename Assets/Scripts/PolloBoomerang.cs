@@ -5,8 +5,9 @@ public class PolloBoomerang : Weapon
 {
 	public PolloBoomerang(GameObject prefab_weapon)
 	{
-		this.name_weapon = "Minigun";
+		this.name_weapon = "PolloBoomerang";
 		this.rateo_fire = 6f;
+		this.is_spammable_fire = false;
 		this.prefab_weapon = prefab_weapon; // Not available still
 	}
 

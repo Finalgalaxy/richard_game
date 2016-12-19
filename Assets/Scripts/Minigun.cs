@@ -7,6 +7,7 @@ public class Minigun : Weapon
 	{
 		this.name_weapon = "Minigun";
 		this.rateo_fire = 0.02f;
+		this.is_spammable_fire = true;
 		this.prefab_weapon = null; // Not available still
 	}
 
