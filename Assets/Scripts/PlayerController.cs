@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour, IPlayerActions {
-	Animator m_Animator;
+	//Animator m_Animator;
 	public float Speed = 10.0f;
 	public float JumpSpeed = 7.0f;
 	public float WallJumpSpeed = 5.0f;
@@ -20,16 +20,25 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 
 	// Use this for initialization
 	void Start () {
-		m_Animator = this.GetComponent<Animator>();
+		Debug.Log("CALLED START");
+
+		//m_Animator = this.GetComponent<Animator>();
 		rigidbody_2d = this.GetComponent<Rigidbody2D>();
 		m_GroundCheckL = this.transform.FindChild("GroundCheckL");
 		m_GroundCheckR = this.transform.FindChild("GroundCheckR");
 		m_WallJumpTOP = this.transform.FindChild("WallJumpTOP");
 		m_WallJumpBOTTOM = this.transform.FindChild("WallJumpBOTTOM");
 		defaultpos = this.transform.position;
+		//weapon_list
 		weapon_list = new Weapon[2];
-		weapon_list[0] = new PolloBoomerang(weapon_go_list[0]);
+		//
+		Debug.Log("Assigning weapons...");
+		weapon_list[0] = 
+		new PolloBoomerang(
+			weapon_go_list[0]);
+		Debug.Log("Weapon 0 assigned");
 		weapon_list[1] = new RocketLauncher(weapon_go_list[1]);
+		Debug.Log("Weapon 1 assigned");
 		weapon_equipped = 1;
 	}
 
@@ -68,8 +77,8 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 			}
 		}
 		// Callback to the animator warning him "hey, this is the actual speed".
-		m_Animator.SetFloat("Speed", speed);
-		m_Animator.SetBool("IsGrounded", isGrounded);
+		//m_Animator.SetFloat("Speed", speed);
+		//m_Animator.SetBool("IsGrounded", isGrounded);
 
 		if(Input.GetButtonDown("Weapon1")){
 			weapon_equipped = 0;
@@ -162,7 +171,7 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 	public void setIfCanMove(bool condition){
 		canMoveCharacter = condition;
 		this.rigidbody_2d.velocity = new Vector2(0, 0);
-		m_Animator.SetFloat("Speed", 0.0f);
+		//m_Animator.SetFloat("Speed", 0.0f);
 	}
 
 	public void setIfCanFire(bool condition){
