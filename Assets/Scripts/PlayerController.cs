@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 	private Transform m_GroundCheckL,m_GroundCheckR,m_WallJumpTOP,m_WallJumpBOTTOM;
 
 	private Vector3 defaultpos;
-	public bool canMoveCharacter = true;
+	public bool canMoveCharacter = true;	// This defines if character can be moved or not (used for menu, dialogs, etc., value=false).
 	private Weapon[] weapon_list;
 	private int weapon_equipped=0;
 	private float ctime_fire_weapon=-1;

@@ -26,6 +26,7 @@ public class GameManager {
 
 	public AudioClip MusicSound,ClickSound;
 	public Texture background,blackbg;
+	public GameObject Player;
 
 
 	public Settings m_Settings = new Settings ();
