@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 					isGrounded = false;
 
 					//ctime_walljump = Time.time;
+				}else{
+					Debug.Log("Not touching ground");
 				}
 			}
 		}
@@ -124,7 +126,8 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 			//Debug.Log("VEL=" + this.rigidbody_2d.velocity);
 
 			if(jump) {
-				rigidbody_2d.AddForce(new Vector2(0, 1) * JumpSpeed, ForceMode2D.Impulse);
+				Debug.Log("Applying force");
+				rigidbody_2d.AddForce(new Vector2(0, 1) * rigidbody_2d.mass * JumpSpeed, ForceMode2D.Impulse);
 				jump = false;
 			} else if(walljump) {
 				//Vector3 direction = (transform.position + new Vector3(1*(this.getFacing() ? 1 : -1), 2, 0)).normalized;
