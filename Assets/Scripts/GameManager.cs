@@ -73,14 +73,7 @@ public class GameManager {
 	{
 		GUILayout.Label("Test");
 		if(GUILayout.Button("Start Game")) {
-			active_scene = SceneList.Loading;
-			Debug.Log("Start game calling...");
-
-			GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), blackbg);
-			SceneManager.LoadScene("SceneLevel1");
-			active_scene = SceneList.Level1;
-
-			Debug.Log("Start game called!");
+			this.LoadNewScene("SceneLevel1");
 		}
 
 		if(GUILayout.Button("Options")) {
@@ -124,6 +117,15 @@ public class GameManager {
 	}
 	private void PauseMenu (int id){}
 	private void GameOverMenu (int id){}
+
+	private void LoadNewScene(string level_name){
+		active_scene = SceneList.Loading;
+		Debug.Log("Loading level '"+level_name+"'...");
+		GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), blackbg);
+		SceneManager.LoadScene(level_name);
+		if(level_name=="SceneLevel1") active_scene = SceneList.Level1;
+		Debug.Log("Level loaded!");
+	}
 
 	const int Width=300,Height=100;
 	public void OnGUI(){

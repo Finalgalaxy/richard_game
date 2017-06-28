@@ -15,6 +15,11 @@ public class DevONLY_InstantiateGM : MonoBehaviour {
 		GameObject check = GameObject.Find("__app"); 
 		if(check==null){
 			UnityEngine.SceneManagement.SceneManager.LoadScene("_preload");
+		}else{
+			Debug.Log("Loaded");
+			GameManager GM = GameManager.getInstance();
+			GM.Player.GetComponent<PlayerController>().canMoveCharacter = true;
+			GM.Player.GetComponent<Rigidbody2D>().isKinematic = false;
 		}
 	}
 }

@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour, IPlayerActions {
 
 		//m_Animator = this.GetComponent<Animator>();
 		rigidbody_2d = this.GetComponent<Rigidbody2D>();
-		m_GroundCheckL = this.transform.FindChild("GroundCheckL");
-		m_GroundCheckR = this.transform.FindChild("GroundCheckR");
-		m_WallJumpTOP = this.transform.FindChild("WallJumpTOP");
-		m_WallJumpBOTTOM = this.transform.FindChild("WallJumpBOTTOM");
+		m_GroundCheckL = this.transform.Find("GroundCheckL");
+		m_GroundCheckR = this.transform.Find("GroundCheckR");
+		m_WallJumpTOP = this.transform.Find("WallJumpTOP");
+		m_WallJumpBOTTOM = this.transform.Find("WallJumpBOTTOM");
 		defaultpos = this.transform.position;
 		//weapon_list
 		weapon_list = new Weapon[2];

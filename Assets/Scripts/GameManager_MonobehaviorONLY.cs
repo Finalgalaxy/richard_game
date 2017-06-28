@@ -124,8 +124,8 @@ public class GameManager_MonobehaviorONLY : MonoBehaviour {
 		active_scene = SceneList.Menu;
 		ActiveMenu = MenuTypes.MainMenu;
 
-		m_MusicSource = transform.FindChild ("Music").GetComponent<AudioSource> ();
-		m_SoundSource = transform.FindChild ("Sound").GetComponent<AudioSource> ();
+		m_MusicSource = transform.Find ("Music").GetComponent<AudioSource> ();
+		m_SoundSource = transform.Find ("Sound").GetComponent<AudioSource> ();
 
 		m_Settings.Load (m_MusicSource, m_SoundSource);
 
